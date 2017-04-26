@@ -1,0 +1,9 @@
+body {
+}
+
+.navbar{
+  background: linear-gradient(to top, #3c4350, #525a6d);
+  min-height: 60px !important;
+  margin-bottom: 0;
+  border-radius: 0;
+}
