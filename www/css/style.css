@@ -79,7 +79,7 @@ body {
 
 .main-color-bg {
   background-color: #3c4350 !important;
-  border-color: #37c0e2 !important;
+  border-color: #215562 !important;
   color: #ffffff;
 }
 
@@ -93,6 +93,12 @@ body {
 
 #header .options {
   padding-top: 20px;
+}
+
+/* Progress bar */
+.progress-bar {
+  background: #3c4350;
+  color:#ffffff;
 }
 
 
