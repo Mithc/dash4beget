@@ -28,8 +28,8 @@ var base1 = ["1;Самый главный сервис в Бегете;101.5.150
       var mainPanel = document.getElementById('mainPanel');
       var newTr = document.createElement('tr');
 
-      if (service.status == "online_tr") {
-        newTr.classList.add("online");
+      if (service.status == "online") {
+        newTr.classList.add("online_tr");
         newTr.innerHTML = "<td>" + service.id + "</td> <td>" + service.name + "</td> <td>" + service.ip + "</td> <td>" + service.descrition + "</td><td class= 'online'>" + service.status + "</td>";
       } else {
         newTr.classList.add("offline_tr");

@@ -116,14 +116,16 @@ body {}
 /* table */
 
 .online {
-    background-color: rgb(108, 219, 21);
+    color: rgb(108, 219, 21);
+    font-weight: bold;
     text-align: center;
 }
 
 
 
 .offline {
-    background-color: red;
+    color: red;
+    font-weight: bold;
     text-align: center;
 }
 
