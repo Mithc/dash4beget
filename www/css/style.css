@@ -121,14 +121,15 @@ body {}
     text-align: center;
 }
 
-
-
 .offline {
     color: red;
     font-weight: bold;
     text-align: center;
 }
 
+.hidden {
+  visibility: hidden;
+}
 
 /* Footer */
 
