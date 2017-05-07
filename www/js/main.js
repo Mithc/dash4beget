@@ -2,86 +2,108 @@ var base1 = ["1;Самый главный сервис в Бегете;101.5.150
 
 
 
-  function Service(data) {
-    this.id = data[0];
-    this.name = data[1];
-    this.ip = data[2];
-    this.descrition = data[3];
-    this.url = data[4];
-    this.status = status();
-  }
+function Service(data) {
+  this.id = data[0];
+  this.name = data[1];
+  this.ip = data[2];
+  this.descrition = data[3];
+  this.url = data[4];
+  this.status = status();
+}
 
-  function status() {
-    var rand = Math.random();
-    if (rand < 0.7) {
-      return "online";
+function status() {
+  var rand = Math.random();
+  if (rand < 0.7) {
+    return "online";
+  } else {
+    return "offline";
+  }
+}
+
+function createTable(base) {
+  var j = 0;
+
+  for (var i = 0; i < base1.length; i++) {
+    var online = document.querySelector(".online_tr");
+    var offline = document.querySelector(".offline_tr");
+    var mainPanel = document.getElementById('mainPanel');
+    console.log(online);
+    console.log(offline);
+    if (online) {
+      mainPanel.removeChild(online);
+    } else  if (offline) {
+      mainPanel.removeChild(offline);
     } else {
-      return "offline";
-    }
-  }
-
-  function createTable(base) {
-    var j = 0;
-    for (var i = 0; i < base.length; i++) {
-      var service = new Service(base[i].split(';'));
-      var mainPanel = document.getElementById('mainPanel');
-      var newTr = document.createElement('tr');
-
-      if (service.status == "online") {
-        newTr.classList.add("online_tr");
-        newTr.innerHTML = "<td>" + service.id + "</td> <td>" + service.name + "</td> <td>" + service.ip + "</td> <td>" + service.descrition + "</td><td class= 'online'>" + service.status + "</td>";
-      } else {
-        newTr.classList.add("offline_tr");
-        newTr.innerHTML = "<td>" + service.id + "</td> <td>" + service.name + "</td> <td>" + service.ip + "</td> <td>" + service.descrition + "</td><td class='offline'>" + service.status + "</td>";
-        j++;
+      for (var i = 0; i < base.length; i++) {
+        var service = new Service(base[i].split(';')),
+          mainPanel = document.getElementById('mainPanel'),
+          newTr = document.createElement('tr');
+          console.log(1);
+        if (service.status == "online") {
+          newTr.classList.add("online_tr");
+          newTr.innerHTML = "<td>" + service.id + "</td> <td>" + service.name + "</td> <td>" + service.ip + "</td> <td>" + service.descrition + "</td><td class= 'online'>" + service.status + "</td>";
+        } else {
+          newTr.classList.add("offline_tr");
+          newTr.innerHTML = "<td>" + service.id + "</td> <td>" + service.name + "</td> <td>" + service.ip + "</td> <td>" + service.descrition + "</td><td class='offline'>" + service.status + "</td>";
+          j++;
+        }
+        mainPanel.appendChild(newTr);
       }
-
-      mainPanel.appendChild(newTr);
     }
+  }
 
-    function createBar() {
-      var statistics = 100 - Math.floor(100 * j / base.length);
-      var barOnline = document.getElementById('progressBarOnline');
-      var strOnline = statistics + "%";
-      var statOnline = document.createElement('span');
+  function createBar() {
+    var statistics = 100 - Math.floor(100 * j / base.length),
+        barOnline = document.getElementById('progressBarOnline'),
+        strOnline = statistics + "%",
+        statOnline = document.createElement('span');
 
-      barOnline.style.width = strOnline;
-      statOnline.innerHTML = strOnline;
-      barOnline.style.width = strOnline;
-      barOnline.appendChild(statOnline);
+    barOnline.style.width = strOnline;
+    statOnline.innerHTML = strOnline;
+    barOnline.style.width = strOnline;
+  //  barOnline.removeChild(statOnline);
+    barOnline.appendChild(statOnline);
 
 
-      var barOffline = document.getElementById('progressBarOffline');
-      var strOffline = (Math.floor(100 * j / base.length)) + "%";
-      var statOffline = document.createElement('span');
+    var barOffline = document.getElementById('progressBarOffline'),
+        strOffline = (Math.floor(100 * j / base.length)) + "%",
+        statOffline = document.createElement('span');
 
-      statOffline.innerHTML = strOffline;
-      barOffline.style.width = strOffline;
-      statOffline.innerHTML = strOffline;
-      barOffline.appendChild(statOffline);
+    statOffline.innerHTML = strOffline;
+    barOffline.style.width = strOffline;
+    statOffline.innerHTML = strOffline;
+  //  barOffline.removeChild(statOffline);
+    barOffline.appendChild(statOffline);
+  }
+
+  createBar();
+}
+
+createTable(base1);
+
+function saveData() {
+  var serviceName = document.getElementById('serviceName'),
+    adress = document.getElementById('adress'),
+    socket = document.getElementById('socket'),
+    serviceDesc = document.getElementById('serviceDesc'),
+    http = document.getElementById('http'),
+    newNumber = base1.length + 1,
+    Arr = [newNumber, serviceName.value, adress.value + socket.value, serviceDesc.value, http.value];
+  base1 += Arr.join(';');
+  createTable(base);
+  console.log(base);
+}
+
+function hide() {
+  var online = document.querySelector(".online_tr");
+  if (online === null) {
+    createTable(base1);
+  } else {
+    for (var i = 0; i < base1.length; i++) {
+      var online = document.querySelector(".online_tr");
+      var mainPanel = document.getElementById('mainPanel');
+      console.log(online);
+      mainPanel.removeChild(online);
     }
-
-    createBar();
   }
-
-  createTable(base1);
-
-  function saveData() {
-    var serviceName = document.getElementById('serviceName'),
-        adress = document.getElementById('adress'),
-        socket = document.getElementById('socket'),
-        serviceDesc = document.getElementById('serviceDesc'),
-        http = document.getElementById('http'),
-        newNumber = base1.length + 1,
-        Arr = [newNumber, serviceName.value, adress.value + socket.value, serviceDesc.value, http.value];
-    base += Arr.join(';');
-    createTable(base);
-    console.log(base);
-  }
-
-  function hide() {
-    var online = document.querySelector(".online_tr"),
-        mainPanel = document.getElementById('mainPanel');
-        console.log(online);
-    mainPanel.removeChild(online);
-  }
+}
