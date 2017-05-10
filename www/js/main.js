@@ -120,6 +120,7 @@ console.log(base0);
 
     }
     mainPanel.appendChild(newTr);
+    createBar()
   }
 
 
