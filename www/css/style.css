@@ -131,6 +131,22 @@ body {}
   visibility: hidden;
 }
 
+#del {
+  color: rgb(113, 113, 113);
+}
+
+#del:hover {
+  color: rgb(226, 33, 33);
+}
+
+#edit {
+  color: rgb(113, 113, 113);
+}
+
+#edit:hover {
+  color: rgb(0, 0, 0);
+}
+
 /* Footer */
 
 #footer {

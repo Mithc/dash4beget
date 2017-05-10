@@ -2,7 +2,12 @@ var base1 = ["1;Самый главный сервис в Бегете;101.5.150
 
 var dashboard = function() {
 
-  
+  var base0 = [];
+  for (var i = 0; i < base1.length; i++) {
+    var service = new Service(base1[i].split(';'));
+    base0.push(service);
+  }
+console.log(base0);
 
   function Service(data) {
     this.id = data[0];
@@ -35,16 +40,17 @@ var dashboard = function() {
         mainPanel.removeChild(offline);
       } else {
         for (var i = 0; i < base.length; i++) {
-          var service = new Service(base[i].split(';')),
+          var service = base[i],
             mainPanel = document.getElementById('mainPanel'),
             newTr = document.createElement('tr');
           baseOfObjects.push(service);
           if (service.status == "online") {
             newTr.classList.add("online_tr");
-            newTr.innerHTML = "<td>" + service.id + "</td> <td>" + service.name + "</td> <td>" + service.ip + "</td> <td>" + service.descrition + "</td><td class= 'online status'>" + service.status + "</td>";
+            newTr.innerHTML = "<td>" + service.id +  "</span> </td> <td>" + service.name +"</td> <td>" + service.ip + "</td> <td>" + service.descrition + "</td><td class= 'online status'>" + service.status + "</td>";
           } else {
             newTr.classList.add("offline_tr");
             newTr.innerHTML = "<td>" + service.id + "</td> <td>" + service.name + "</td> <td>" + service.ip + "</td> <td>" + service.descrition + "</td><td class='offline status'>" + service.status + "</td>";
+            //" " +"<span class='glyphicon glyphicon-cog' id='edit'>"+"/"+"<span class='glyphicon glyphicon-trash' id='del'>
             j++;
           }
           mainPanel.appendChild(newTr);
@@ -91,7 +97,7 @@ var dashboard = function() {
     return baseOfObjects;
   }
 
-  createTable(base1);
+  var base = createTable(base0);
 
   function saveData() {
     var serviceName = document.getElementById('serviceName'),
@@ -104,6 +110,7 @@ var dashboard = function() {
       mainPanel = document.getElementById('mainPanel'),
       newTr = document.createElement('tr'),
       service = new Service(Arr);
+      base.push(service);
     if (service.status == "online") {
       newTr.classList.add("online_tr");
       newTr.innerHTML = "<td>" + service.id + "</td> <td>" + service.name + "</td> <td>" + service.ip + "</td> <td>" + service.descrition + "</td><td class= 'online status'>" + service.status + "</td>";
@@ -123,7 +130,7 @@ var dashboard = function() {
     var online = document.querySelector(".online_tr"),
       numOfRows = document.querySelectorAll(".status");
     if (online === null) {
-      createTable(base1);
+      createTable(base);
     } else {
       for (var i = 0; i < numOfRows.length; i++) {
         var online = document.querySelector(".online_tr"),
