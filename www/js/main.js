@@ -2,127 +2,138 @@ var base1 = ["1;Самый главный сервис в Бегете;101.5.150
 
 /*var dashboard = function() {*/
 
-    function Service(data) {
-        this.id = data[0];
-        this.name = data[1];
-        this.ip = data[2];
-        this.descrition = data[3];
-        this.url = data[4];
-        this.status = status();
-    }
 
-    function status() {
-        var rand = Math.random();
-        if (rand < 0.7) {
-            return "online";
+
+function Service(data) {
+  this.id = data[0];
+  this.name = data[1];
+  this.ip = data[2];
+  this.descrition = data[3];
+  this.url = data[4];
+  this.status = status();
+}
+
+function status() {
+  var rand = Math.random();
+  if (rand < 0.7) {
+    return "online";
+  } else {
+    return "offline";
+  }
+}
+
+function createTable(base) {
+  var j = 0;
+  for (var i = 0; i < base1.length; i++) {
+    var online = document.querySelector(".online_tr"),
+      offline = document.querySelector(".offline_tr"),
+      mainPanel = document.getElementById('mainPanel'),
+      baseOfObjects = [];
+    if (online) {
+      mainPanel.removeChild(online);
+    } else if (offline) {
+      mainPanel.removeChild(offline);
+    } else {
+      for (var i = 0; i < base.length; i++) {
+        var service = new Service(base[i].split(';')),
+          mainPanel = document.getElementById('mainPanel'),
+          newTr = document.createElement('tr');
+        baseOfObjects.push(service);
+
+        if (service.status == "online") {
+          newTr.classList.add("online_tr");
+          newTr.innerHTML = "<td>" + service.id + "</td> <td>" + service.name + "</td> <td>" + service.ip + "</td> <td>" + service.descrition + "</td><td class= 'online status'>" + service.status + "</td>";
         } else {
-            return "offline";
+          newTr.classList.add("offline_tr");
+          newTr.innerHTML = "<td>" + service.id + "</td> <td>" + service.name + "</td> <td>" + service.ip + "</td> <td>" + service.descrition + "</td><td class='offline status'>" + service.status + "</td>";
+          j++;
         }
+        mainPanel.appendChild(newTr);
+      }
+      console.log(baseOfObjects);
     }
-
-    function createTable(base) {
-        var j = 0;
-        for (var i = 0; i < base1.length; i++) {
-            var online = document.querySelector(".online_tr"),
-                offline = document.querySelector(".offline_tr"),
-                mainPanel = document.getElementById('mainPanel');
-            if (online) {
-                mainPanel.removeChild(online);
-            } else if (offline) {
-                mainPanel.removeChild(offline);
-            } else {
-                for (var i = 0; i < base.length; i++) {
-                    var service = new Service(base[i].split(';')),
-                        mainPanel = document.getElementById('mainPanel'),
-                        newTr = document.createElement('tr');
-                    if (service.status == "online") {
-                        newTr.classList.add("online_tr");
-                        newTr.innerHTML = "<td>" + service.id + "</td> <td>" + service.name + "</td> <td>" + service.ip + "</td> <td>" + service.descrition + "</td><td class= 'online status'>" + service.status + "</td>";
-                    } else {
-                        newTr.classList.add("offline_tr");
-                        newTr.innerHTML = "<td>" + service.id + "</td> <td>" + service.name + "</td> <td>" + service.ip + "</td> <td>" + service.descrition + "</td><td class='offline status'>" + service.status + "</td>";
-                        j++;
-                    }
-                    mainPanel.appendChild(newTr);
-                }
+  }
+  /*
+          setTimeout(function statusUpdate() {
+            for (var i = 0; i < base.length; i++) {
+              var service = new Service(base[i].split(';'));
+              console.log(document.getElementsByClassName("status"));
+                  var collection =document.getElementsByClassName("status");
+                  collection.innerHTML(service.status);
             }
-        }
+          }, 1000);
+  */
+  function createBar(numOffline) {
+    var numOfRows = document.querySelectorAll(".status"),
+      statistics = 100 - Math.floor(100 * numOffline / numOfRows.length),
+      barOnline = document.getElementById('progressBarOnline'),
+      strOnline = statistics + "%",
+      statOnline = document.createElement('span'),
+      numOfRows = document.querySelectorAll(".status");
 
-        setTimeout(function statusUpdate() {
-          for (var i = 0; i < base.length; i++) {
-            var service = new Service(base[i].split(';'));
-            console.log(document.getElementsByClassName("status"));
-                var collection =document.getElementsByClassName("status");
-                collection.innerHTML(service.status);
-          }
-        }, 1000);
-
-        function createBar() {
-            var statistics = 100 - Math.floor(100 * j / base.length),
-                barOnline = document.getElementById('progressBarOnline'),
-                strOnline = statistics + "%",
-                statOnline = document.createElement('span');
-
-            barOnline.style.width = strOnline;
-            statOnline.innerHTML = strOnline;
-            barOnline.style.width = strOnline;
-            //  barOnline.removeChild(statOnline);
-            barOnline.appendChild(statOnline);
+    barOnline.style.width = strOnline;
+    statOnline.innerHTML = strOnline;
+    barOnline.style.width = strOnline;
+    //  barOnline.removeChild(statOnline);
+    barOnline.appendChild(statOnline);
 
 
-            var barOffline = document.getElementById('progressBarOffline'),
-                strOffline = (Math.floor(100 * j / base.length)) + "%",
-                statOffline = document.createElement('span');
+    var barOffline = document.getElementById('progressBarOffline'),
+      strOffline = (Math.floor(100 * numOffline / numOfRows.length)) + "%",
+      statOffline = document.createElement('span');
 
-            statOffline.innerHTML = strOffline;
-            barOffline.style.width = strOffline;
-            statOffline.innerHTML = strOffline;
-            //  barOffline.removeChild(statOffline);
-            barOffline.appendChild(statOffline);
-        }
+    statOffline.innerHTML = strOffline;
+    barOffline.style.width = strOffline;
+    statOffline.innerHTML = strOffline;
+    //  barOffline.removeChild(statOffline);
+    barOffline.appendChild(statOffline);
+  }
 
-        createBar();
-    }
+  createBar(j);
+}
 
+createTable(base1);
+
+function saveData() {
+  var serviceName = document.getElementById('serviceName'),
+    adress = document.getElementById('adress'),
+    socket = document.getElementById('socket'),
+    serviceDesc = document.getElementById('serviceDesc'),
+    http = document.getElementById('http'),
+    length = document.getElementsByClassName("status").length,
+    Arr = [length + 1, serviceName.value, adress.value + socket.value, serviceDesc.value, status()],
+    mainPanel = document.getElementById('mainPanel'),
+    newTr = document.createElement('tr'),
+    service = new Service(Arr);
+  if (service.status == "online") {
+    newTr.classList.add("online_tr");
+    newTr.innerHTML = "<td>" + service.id + "</td> <td>" + service.name + "</td> <td>" + service.ip + "</td> <td>" + service.descrition + "</td><td class= 'online status'>" + service.status + "</td>";
+  } else {
+    newTr.classList.add("offline_tr");
+    newTr.innerHTML = "<td>" + service.id + "</td> <td>" + service.name + "</td> <td>" + service.ip + "</td> <td>" + service.descrition + "</td><td class='offline status'>" + service.status + "</td>";
+
+  }
+  mainPanel.appendChild(newTr);
+  createBar(13);
+}
+
+function hide() {
+  var online = document.querySelector(".online_tr"),
+    numOfRows = document.querySelectorAll(".status");
+  if (online === null) {
     createTable(base1);
+  } else {
+    for (var i = 0; i < numOfRows.length; i++) {
+      var online = document.querySelector(".online_tr"),
+        mainPanel = document.getElementById('mainPanel');
 
-    function saveData() {
-        var serviceName = document.getElementById('serviceName'),
-            adress = document.getElementById('adress'),
-            socket = document.getElementById('socket'),
-            serviceDesc = document.getElementById('serviceDesc'),
-            http = document.getElementById('http'),
-            length = document.getElementsByClassName("status").length,
-            Arr = [length+1, serviceName.value, adress.value + socket.value, serviceDesc.value,status()],
-            mainPanel = document.getElementById('mainPanel'),
-            newTr = document.createElement('tr');
-            var service = new Service(Arr);
+      if (online) {
+        mainPanel.removeChild(online);
+      }
 
-            console.log(length);
-            if (service.status == "online") {
-                newTr.classList.add("online_tr");
-                newTr.innerHTML = "<td>" + service.id + "</td> <td>" + service.name + "</td> <td>" + service.ip + "</td> <td>" + service.descrition + "</td><td class= 'online status'>" + service.status + "</td>";
-            } else {
-                newTr.classList.add("offline_tr");
-                newTr.innerHTML = "<td>" + service.id + "</td> <td>" + service.name + "</td> <td>" + service.ip + "</td> <td>" + service.descrition + "</td><td class='offline status'>" + service.status + "</td>";
-
-            }
-            mainPanel.appendChild(newTr);
     }
-
-    function hide() {
-        var online = document.querySelector(".online_tr");
-        if (online === null) {
-            createTable(base1);
-        } else {
-            for (var i = 0; i < base1.length; i++) {
-                var online = document.querySelector(".online_tr"),
-                    mainPanel = document.getElementById('mainPanel');
-                console.log(online);
-                mainPanel.removeChild(online);
-            }
-        }
-    }
+  }
+}
 /*
     return {
         saveData: dashboard.saveData,
