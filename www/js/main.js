@@ -50,7 +50,7 @@ console.log(base0);
           } else {
             newTr.classList.add("offline_tr");
             newTr.innerHTML = "<td>" + service.id + "</td> <td>" + service.name + "</td> <td>" + service.ip + "</td> <td>" + service.descrition + "</td><td class='offline status'>" + service.status + "</td>";
-            //" " +"<span class='glyphicon glyphicon-cog' id='edit'>"+"/"+"<span class='glyphicon glyphicon-trash' id='del'>
+            //" " +"<span class='glyphicon glyphicon-cog edit' >"+"/"+"<span class='glyphicon glyphicon-trash del'>
             j++;
           }
           mainPanel.appendChild(newTr);
