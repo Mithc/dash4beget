@@ -2,28 +2,32 @@ var base1 = ["1;Самый главный сервис в Бегете;101.5.150
 
 var dashboard = function() {
 
-  var base0 = [];
-  for (var i = 0; i < base1.length; i++) {
-    var service = new Service(base1[i].split(';'));
-    base0.push(service);
-  }
-  console.log(base0);
-
-  function Service(data) {
-    this.id = data[0];
-    this.name = data[1];
-    this.ip = data[2];
-    this.descrition = data[3];
-    this.url = data[4];
-    this.status = status();
-  }
-
-  function status() {
-    var rand = Math.random();
-    if (rand < 0.7) {
-      return "online";
-    } else {
-      return "offline";
+    var base0 = [];
+    for (var i = 0; i < base1.length; i++) {
+        var service = new Service(base1[i].split(';'));
+        base0.push(service);
     }
-  }
+
+    function Service(data) {
+        this.id = data[0];
+        this.name = data[1];
+        this.ip = data[2];
+        this.descrition = data[3];
+        this.url = data[4];
+        this.status = status();
+    }
+
+    function status() {
+        var rand = Math.random();
+        if (rand < 0.7) {
+            return "online";
+        } else {
+            return "offline";
+        }
+    }
+
+    var tmpl = document.getElementById('mainPanel-template').innerHTML.trim();
+    tmpl = _.template(tmpl);
+
+    document.getElementById('table').innerHTML = tmpl(base0);
 }();
