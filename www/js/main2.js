@@ -2,6 +2,8 @@ var base1 = ["1;Самый главный сервис в Бегете;101.5.150
 
 var dashboard = function() {
 
+//Generate mainBase from base1
+
   var mainBase = [];
   for (var i = 0; i < base1.length; i++) {
     var service = new Service(base1[i].split(';'));
@@ -26,7 +28,7 @@ var dashboard = function() {
     }
   }
 
-
+// Observer
 
   function Observable() {
     var observers = [];
@@ -60,6 +62,15 @@ var dashboard = function() {
 
   }, 3000);
 
+// rendering LODASH template(not()
+
+  var tmpl = document.getElementById('mainPanel-template').innerHTML.trim();
+  tmpl = _.template(tmpl);
+
+
+  document.getElementById('table').innerHTML = tmpl({
+    list: mainBase
+  });
 
   //TODo
   function fakeBackend() {
@@ -81,6 +92,10 @@ var dashboard = function() {
   function edit() {
 
   }
+
+
+
+
   /*
       var form = document.getElementById("addForm");
       form.addEventListener("submit", validate);
@@ -115,13 +130,7 @@ var dashboard = function() {
       }
   */
 
-  var tmpl = document.getElementById('mainPanel-template').innerHTML.trim();
-  tmpl = _.template(tmpl);
 
-
-  document.getElementById('table').innerHTML = tmpl({
-    list: mainBase
-  });
 
 
 }();
