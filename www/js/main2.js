@@ -2,10 +2,10 @@ var base1 = ["1;Самый главный сервис в Бегете;101.5.150
 
 var dashboard = function() {
 
-    var base0 = [];
+    var mainBase = [];
     for (var i = 0; i < base1.length; i++) {
         var service = new Service(base1[i].split(';'));
-        base0.push(service);
+        mainBase.push(service);
     }
 
     function Service(data) {
@@ -26,8 +26,75 @@ var dashboard = function() {
         }
     }
 
+    
+
+    function Observable(){
+      var observers = [];
+      this.sendMessage = function (msg){
+        for (var i = 0; i < observers.length; i++) {
+          observers[i].notify(msg);
+        }
+      };
+      this.addObserver = function(observer){
+        observers.push(observer);
+      };
+    }
+
+    function Observer(behavior){
+      this.notify = function (msg) {
+        behavior(msg);
+      };
+    }
+
+    var observable = new Observable();
+    var obs1 = new Observer(function(msg){console.log(msg);});
+    var obs2 = new Observer(function(msg){alert(msg);});
+    observable.addObserver(obs1);
+    observable.addObserver(obs2);
+    setTimeout(function functionName() {observable.sendMessage("time:" +new Date());
+
+  },3000);
+/*
+    var form = document.getElementById("addForm");
+    form.addEventListener("submit", validate);
+
+
+    function validate() {
+      var serviceName = document.getElementById("serviceName"),
+      adress = document.getElementById("adress"),
+      socket = document.getElementById('socket'),
+      serviceDesc = document.getElementById('serviceDesc'),
+      http = document.getElementById("http");
+
+      event.preventDefault();
+
+
+      function validateIpAndPort(input) {
+          var parts = input.split(":");
+          var ip = parts[0].split(".");
+          var port = parts[1];
+          return validateNum(port, 1, 65535) &&
+              ip.length == 4 &&
+              ip.every(function (segment) {
+                  return validateNum(segment, 0, 255);
+              });
+      }
+
+      function validateNum(input, min, max) {
+          var num = +input;
+          return num >= min && num <= max && input === num.toString();
+      }
+
+    }
+
+
     var tmpl = document.getElementById('mainPanel-template').innerHTML.trim();
     tmpl = _.template(tmpl);
 
-    document.getElementById('table').innerHTML = tmpl(base0);
+
+    document.getElementById('table').innerHTML = tmpl({
+      list: mainBase
+    });
+
+*/
 }();

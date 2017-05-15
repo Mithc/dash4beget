@@ -7,8 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Dashboard</title>
-
-    <script src="js/lodash.js"></script>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 </head>
@@ -139,7 +137,7 @@
                                               <%=list[i].status%>
                                             </td>
                                           </tr>
-                                        }
+                                        <% } %>
                                     </tbody>
                                 </table>
                             </script>
@@ -164,7 +162,7 @@
     <div class="modal fade" id="addService" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form class="" action="index.html" method="post">
+                <form id ="addForm"class="" action="index.html" method="post">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="myModalLabel">Добавление сервиса</h4>
@@ -172,28 +170,28 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="serviceName">Имя нового сервиса:</label>
-                            <input type="text" id="serviceName" class="form-control" name="serviceName" value="my service" required>
+                            <input type="text" id="serviceName" class="form-control" name="serviceName" placeholder="Service name" required>
                         </div>
                         <div class="form-group">
                             <label for="adress">IP-Адрес:</label>
-                            <input type="text" id="adress" class="form-control" name="adress" required>
+                            <input type="text" id="adress" class="form-control" name="adress" placeholder="101.5.100.16/28" required>
                         </div>
                         <div class="form-group">
                             <label for="adress">Порт:</label>
-                            <input type="text" id="socket" class="form-control" name="socket" value="/">
+                            <input type="text" id="socket" class="form-control" name="socket" placeholder=":3002" >
                         </div>
                         <div class="form-group">
                             <label for="serviceDesc">Описание:</label>
-                            <input type="text" id="serviceDesc" class="form-control" name="serviceDesc" required>
+                            <input type="text" id="serviceDesc" class="form-control" name="serviceDesc" placeholder="serv" required>
                         </div>
                         <div class="form-group">
                             <label for="serviceHttp">URL:</label>
-                            <input type="text" id="http" class="form-control" name="serviceDesc" value="http://">
+                            <input type="text" id="http" class="form-control" name="serviceDesc" placeholder="https://beget.com">
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть окно</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" id="addData">Добавить сервис</button>
+                        <button type="submit" class="btn btn-primary" id="addData">Добавить сервис</button>
                     </div>
                 </form>
             </div>
@@ -204,6 +202,7 @@
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="js/lodash.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/main2.js"></script>
 </body>
