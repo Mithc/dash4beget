@@ -26,7 +26,7 @@ var dashboard = function() {
         }
     }
 
-    
+
 
     function Observable(){
       var observers = [];
@@ -86,7 +86,7 @@ var dashboard = function() {
       }
 
     }
-
+*/
 
     var tmpl = document.getElementById('mainPanel-template').innerHTML.trim();
     tmpl = _.template(tmpl);
@@ -96,5 +96,5 @@ var dashboard = function() {
       list: mainBase
     });
 
-*/
+
 }();
