@@ -76,18 +76,22 @@
             </a>
                         <a type="button" class="list-group-item" data-toggle="modal" data-target="#addService">Добавление сервиса</a>
                         <a class="list-group-item" id="hideOnline">Только offline/Все сервисы</a>
-                        <!--<a href="#" class="list-group-item">очень</a>
-            <a href="#" class="list-group-item">важное</a>-->
+                        <a href="#" class="list-group-item">Обновить статус сервисов</a>
+                        <!--<a href="#" class="list-group-item">важное</a>-->
                     </div>
                     <h4>Статичтика сервисов online</h4>
+                    <div id="progressBars"></div>
+                    <script type="text/template" id="progressBars-template">
                     <div class="progress">
-                        <div class="progress-bar" id="progressBarOnline" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar" id="progressBarOnline" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:<%=online%>%">
+                          <%=online%>%
                         </div>
                     </div>
                     <h4>Статистика сервисов offline</h4>
 
                     <div class="progress">
-                        <div class="progress-bar" role="progressbar" id="progressBarOffline" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 31%;">
+                        <div class="progress-bar" role="progressbar" id="progressBarOffline" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:<%=offline%>%">
+                          <%=offline%>%
                         </div>
                     </div>
                     <h4>Статистика</h4>
@@ -96,6 +100,8 @@
                             23%
                         </div>
                     </div>
+                    </script>
+
                 </div>
 
                 <div class="col-md-9">
@@ -116,28 +122,28 @@
                                             <th>http</th>
                                             <th>Состояние сервиса</th>
                                         </tr>
-                                        <% for(var i = 0; i < list.length; i++) {
-                                          <tr>
-                                            <td>
-                                              <%=list[i].id%>
-                                            </td>
-                                            <td>
-                                              <%=list[i].name%>
-                                            </td>
-                                            <td>
-                                              <%=list[i].ip%>
-                                            </td>
-                                            <td>
-                                              <%=list[i].descrition%>
-                                            </td>
-                                            <td>
-                                              <%=list[i].url%>
-                                            </td>
-                                            <td class="<%=list[i].status%>">
-                                              <%=list[i].status%>
-                                            </td>
-                                          </tr>
-                                        <% } %>
+                                        <% for(var i = 0; i < list.length; i++) { %>
+                                            <tr>
+                                                <td>
+                                                    <%=list[i].id%>
+                                                </td>
+                                                <td>
+                                                    <%=list[i].name%>
+                                                </td>
+                                                <td>
+                                                    <%=list[i].ip%>
+                                                </td>
+                                                <td>
+                                                    <%=list[i].descrition%>
+                                                </td>
+                                                <td>
+                                                    <%=list[i].url%>
+                                                </td>
+                                                <td class="<%=list[i].status%>">
+                                                    <%=list[i].status%>
+                                                </td>
+                                            </tr>
+                                            <% } %>
                                     </tbody>
                                 </table>
                             </script>
@@ -162,7 +168,7 @@
     <div class="modal fade" id="addService" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form id ="addForm"class="" action="index.html" method="post">
+                <form id="addForm" class="" action="index.html" method="post">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="myModalLabel">Добавление сервиса</h4>
@@ -178,7 +184,7 @@
                         </div>
                         <div class="form-group">
                             <label for="adress">Порт:</label>
-                            <input type="text" id="socket" class="form-control" name="socket" placeholder=":3002" >
+                            <input type="text" id="socket" class="form-control" name="socket" placeholder=":3002">
                         </div>
                         <div class="form-group">
                             <label for="serviceDesc">Описание:</label>
