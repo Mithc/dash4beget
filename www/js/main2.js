@@ -2,179 +2,183 @@ var base1 = ["1;Самый главный сервис в Бегете;101.5.150
 
 var dashboard = function() {
 
-    //Generate mainBase from base1
+  //Generate mainBase from base1
 
-    var mainBase = [];
-    for (var i = 0; i < base1.length; i++) {
-        var service = new Service(base1[i].split(';'));
-        mainBase.push(service);
+  var mainBase = [];
+  for (var i = 0; i < base1.length; i++) {
+    var service = new Service(base1[i].split(';'));
+    mainBase.push(service);
+  }
+
+  function Service(data) {
+    this.id = data[0];
+    this.name = data[1];
+    this.ip = data[2];
+    this.descrition = data[3];
+    this.url = data[4];
+    this.status = status();
+  }
+
+  function status() {
+    var rand = Math.random();
+    if (rand < 0.85) {
+      return "online";
+    } else {
+      return "offline";
+    }
+  }
+
+  // Observer
+
+  function Observable() {
+    var observers = [];
+    this.sendMessage = function(msg) {
+      for (var i = 0; i < observers.length; i++) {
+        observers[i].notify(msg);
+      }
+    };
+    this.addObserver = function(observer) {
+      observers.push(observer);
+    };
+  }
+
+  function Observer(behavior) {
+    this.notify = function(msg) {
+      behavior(msg);
+    };
+  }
+
+  var observable = new Observable();
+  var obs1 = new Observer(function(msg) {
+    console.log(msg);
+  });
+  var obs2 = new Observer(function(msg) {
+
+  });
+  observable.addObserver(obs1);
+  observable.addObserver(obs2);
+  setTimeout(function functionName() {
+    observable.sendMessage("time:" + new Date());
+  }, 3000);
+
+
+
+
+
+
+
+
+
+
+  renderBar();
+  render(mainBase);
+  var fakeBackend = setInterval(function() {
+    for (var i = 0; i < mainBase.length; i++) {
+      mainBase[i].status = status();
+    }
+  }, 5000);
+
+
+  function render(db) {
+    if (table.firstChild) {
+      table.firstChild.remove();
     }
 
-    function Service(data) {
-        this.id = data[0];
-        this.name = data[1];
-        this.ip = data[2];
-        this.descrition = data[3];
-        this.url = data[4];
-        this.status = status();
-    }
+    var tmpl = document.getElementById('mainPanel-template').innerHTML.trim();
+    tmpl = _.template(tmpl);
 
-    function status() {
-        var rand = Math.random();
-        if (rand < 0.7) {
-            return "online";
-        } else {
-            return "offline";
-        }
-    }
 
-    // Observer
-
-    function Observable() {
-        var observers = [];
-        this.sendMessage = function(msg) {
-            for (var i = 0; i < observers.length; i++) {
-                observers[i].notify(msg);
-            }
-        };
-        this.addObserver = function(observer) {
-            observers.push(observer);
-        };
-    }
-
-    function Observer(behavior) {
-        this.notify = function(msg) {
-            behavior(msg);
-        };
-    }
-
-    var observable = new Observable();
-    var obs1 = new Observer(function(msg) {
-        console.log(msg);
+    document.getElementById('table').innerHTML = tmpl({
+      list: db
     });
-    var obs2 = new Observer(function(msg) {
 
-    });
-    observable.addObserver(obs1);
-    observable.addObserver(obs2);
-    setTimeout(function functionName() {
-        observable.sendMessage("time:" + new Date());
-    }, 3000);
+    console.log(1);
+  }
 
-
-
-
-    //TODo
-    function fakeBackend(db) {
-        setInterval(function updateBase() {
-            for (var i = 0; i < db.length; i++) {
-                db[i].status = status();
-            }
-            return db;
-        }, 5000);
+  function renderBar() {
+    if (progressBars.firstChild) {
+      progressBars.firstChild.remove();
     }
-
-    function render(db) {
-        if (table.firstChild) {
-            table.firstChild.remove();
-        }
-
-        var tmpl = document.getElementById('mainPanel-template').innerHTML.trim();
-        tmpl = _.template(tmpl);
-
-
-        document.getElementById('table').innerHTML = tmpl({
-            list: db
-        });
+    var on = 0,
+      off = 0,
+      len = mainBase.length;
+    for (var i = 0; i < len; i++) {
+      if (mainBase[i].status === "online") {
+        on++;
+      }
     }
+    on = Math.floor(on / len * 100);
+    off = 100 - on;
 
-    function renderBar() {
-        if (progressBars.firstChild) {
-            progressBars.firstChild.remove();
-            console.log("REMOVED");
-        }
-        var on = 0,
-            off = 0,
-            len = mainBase.length;
-        for (var i = 0; i < len; i++) {
-            if (mainBase[i].status === "online") {
-                on++;
-            }
-        }
-        on = Math.floor(on / len * 100);
-        off = 100 - on;
+    var tmpl = document.getElementById('progressBars-template').innerHTML.trim();
+    tmpl = _.template(tmpl);
+    var obj = {
+      online: on,
+      offline: off
+    };
+    document.getElementById('progressBars').innerHTML = tmpl(obj);
+  }
 
-        var tmpl = document.getElementById('progressBars-template').innerHTML.trim();
-        tmpl = _.template(tmpl);
-        var obj = {
-            online: on,
-            offline: off
-        };
+  //RERENDR EVERY 5 SECONDS!
 
-        document.getElementById('progressBars').innerHTML = tmpl(obj);
-    }
-
-    setInterval(renderBar(), 1000);
-    //setTimeout(renderBar(70, 30), 10000);
+  var interval = setInterval(function() {
+    renderBar();
     render(mainBase);
+  }, 5000);
 
-    hideOnline.addEventListener("click", filter);
-    rerender.addEventListener("click", render(mainBase));
 
-    function filter() {
-        f = _.filter(mainBase, function(item) {
-            return item.status == "offline";
-        });
-        render(f);
+  hideOnline.addEventListener("click", filter);
+  rerender.addEventListener("click", render(mainBase));
 
+  function filter() {
+    f = _.filter(mainBase, function(item) {
+      return item.status == "offline";
+    });
+    render(f);
+    renderBar();
+    clearInterval(interval);
+
+  }
+
+
+  //TODo
+
+
+
+  function validate() {
+    var serviceName = document.getElementById("serviceName"),
+      adress = document.getElementById("adress"),
+      socket = document.getElementById('socket'),
+      serviceDesc = document.getElementById('serviceDesc'),
+      http = document.getElementById("http");
+
+    function validateIpAndPort(input) {
+      var parts = input.split("/");
+      var ip = parts[0].split(".");
+      var port = parts[1];
+      if (parts[1]) {
+        return validateNum(port, 1, 65535) &&
+          ip.length == 4 &&
+          ip.every(function(segment) {
+            return validateNum(segment, 0, 255);
+          });
+      } else {
+        return ip.length == 4 &&
+          ip.every(function(segment) {
+            return validateNum(segment, 0, 255);
+          });
+      }
     }
 
-    function validate() {
-
+    function validateNum(input, min, max) {
+      var num = +input;
+      return num >= min && num <= max && input === num.toString();
     }
+  }validate();
 
-    function edit() {
+  function edit() {
 
-    }
-
-
-
-
-    /*
-        var form = document.getElementById("addForm");
-        form.addEventListener("submit", validate);
-
-
-        function validate() {
-          var serviceName = document.getElementById("serviceName"),
-          adress = document.getElementById("adress"),
-          socket = document.getElementById('socket'),
-          serviceDesc = document.getElementById('serviceDesc'),
-          http = document.getElementById("http");
-
-          event.preventDefault();
-
-
-          function validateIpAndPort(input) {
-              var parts = input.split(":");
-              var ip = parts[0].split(".");
-              var port = parts[1];
-              return validateNum(port, 1, 65535) &&
-                  ip.length == 4 &&
-                  ip.every(function (segment) {
-                      return validateNum(segment, 0, 255);
-                  });
-          }
-
-          function validateNum(input, min, max) {
-              var num = +input;
-              return num >= min && num <= max && input === num.toString();
-          }
-
-        }
-    */
-
-
+  }
 
 
 }();

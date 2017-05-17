@@ -139,11 +139,12 @@ body {}
   color: rgb(226, 33, 33);
 }
 
-#edit {
+.edit {
   color: rgb(113, 113, 113);
+  text-align: center;
 }
 
-#edit:hover {
+.edit:hover {
   color: rgb(0, 0, 0);
 }
 

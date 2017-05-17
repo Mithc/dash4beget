@@ -75,8 +75,8 @@
               Управление
             </a>
                         <a type="button" class="list-group-item" data-toggle="modal" data-target="#addService">Добавление сервиса</a>
-                        <a class="list-group-item" id="hideOnline">Только offline/Все сервисы</a>
-                        <a href="#" class="list-group-item" id="rerender">Обновить статус сервисов</a>
+                        <a class="list-group-item" id="hideOnline">Только offline</a>
+                        <a class="list-group-item" id="rerender">Все сервисы</a>
                         <!--<a href="#" class="list-group-item">важное</a>-->
                     </div>
                     <h4>Статичтика сервисов online</h4>
@@ -117,10 +117,12 @@
                                         <tr>
                                             <th>id</th>
                                             <th>Имя сервиса</th>
+                                            <th>Изменить</th>
                                             <th>Адрес</th>
                                             <th>Описание</th>
                                             <th>http</th>
                                             <th>Состояние сервиса</th>
+
                                         </tr>
                                         <% for(var i = 0; i < list.length; i++) { %>
                                             <tr>
@@ -129,6 +131,9 @@
                                                 </td>
                                                 <td>
                                                     <%=list[i].name%>
+                                                </td>
+                                                <td data-id="edit<%=list[i].id%>" class = "edit">
+                                                    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                                                 </td>
                                                 <td>
                                                     <%=list[i].ip%>
@@ -142,6 +147,7 @@
                                                 <td class="<%=list[i].status%>">
                                                     <%=list[i].status%>
                                                 </td>
+
                                             </tr>
                                             <% } %>
                                     </tbody>
