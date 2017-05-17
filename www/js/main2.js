@@ -53,11 +53,11 @@ var dashboard = function() {
         console.log(msg);
     });
     var obs2 = new Observer(function(msg) {
-      renderBar(Math.random()*100, Math.random()*100)
+
     });
     observable.addObserver(obs1);
     observable.addObserver(obs2);
-    setInterval(function functionName() {
+    setTimeout(function functionName() {
         observable.sendMessage("time:" + new Date());
     }, 3000);
 
@@ -74,41 +74,58 @@ var dashboard = function() {
         }, 5000);
     }
 
-    function render() {
+    function render(db) {
+        if (table.firstChild) {
+            table.firstChild.remove();
+        }
+
         var tmpl = document.getElementById('mainPanel-template').innerHTML.trim();
         tmpl = _.template(tmpl);
 
 
         document.getElementById('table').innerHTML = tmpl({
-            list: mainBase
+            list: db
         });
-
-
-
     }
-    function renderBar(a, b) {
-      if (progressBars.firstChild) {
-        progressBars.firstChild.remove();
-        console.log("REMOVED");
-      }
+
+    function renderBar() {
+        if (progressBars.firstChild) {
+            progressBars.firstChild.remove();
+            console.log("REMOVED");
+        }
+        var on = 0,
+            off = 0,
+            len = mainBase.length;
+        for (var i = 0; i < len; i++) {
+            if (mainBase[i].status === "online") {
+                on++;
+            }
+        }
+        on = Math.floor(on / len * 100);
+        off = 100 - on;
 
         var tmpl = document.getElementById('progressBars-template').innerHTML.trim();
         tmpl = _.template(tmpl);
         var obj = {
-            online: a,
-            offline: b
+            online: on,
+            offline: off
         };
-        console.log(obj);
 
         document.getElementById('progressBars').innerHTML = tmpl(obj);
     }
 
-    setInterval(renderBar(Math.random()*100, Math.random()*100), 1000);
+    setInterval(renderBar(), 1000);
     //setTimeout(renderBar(70, 30), 10000);
-    render();
+    render(mainBase);
 
+    hideOnline.addEventListener("click", filter);
+    rerender.addEventListener("click", render(mainBase));
 
     function filter() {
+        f = _.filter(mainBase, function(item) {
+            return item.status == "offline";
+        });
+        render(f);
 
     }
 
