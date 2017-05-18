@@ -131,11 +131,12 @@ body {}
   visibility: hidden;
 }
 
-#del {
+.del {
   color: rgb(113, 113, 113);
+  text-align: center;
 }
 
-#del:hover {
+.del:hover {
   color: rgb(226, 33, 33);
 }
 
