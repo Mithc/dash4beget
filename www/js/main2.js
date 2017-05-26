@@ -30,7 +30,7 @@ function status() {
 }
 
 // Observer
-
+/*
 function Observable() {
     var observers = [];
     this.sendMessage = function(msg) {
@@ -50,18 +50,20 @@ function Observer(behavior) {
 }
 
 var observable = new Observable();
-var obs1 = new Observer(function(msg) {
-    console.log(msg);
+
+var del = new Observer(function(id) {
+    mainBase.splice(id,1);
 });
-var obs2 = new Observer(function(msg) {
+var edit = new Observer(function(id) {
 
 });
-observable.addObserver(obs1);
-observable.addObserver(obs2);
+
+observable.addObserver(del);
+
 setTimeout(function functionName() {
     observable.sendMessage("time:" + new Date());
 }, 3000);
-
+*/
 // Первоначальный рендер Таблицы и Баров
 
 renderBar();
@@ -90,8 +92,6 @@ function render(db) {
     document.getElementById('table').innerHTML = tmpl({
         list: db
     });
-
-    console.log(1);
 }
 
 // renderBar Отрисовывает бары со статистикой
@@ -131,6 +131,7 @@ var interval = setInterval(function() {
 hideOnline.addEventListener("click", filter);
 //rerender.addEventListener("click", render(mainBase));
 
+// filter скрывает все online сервисы
 function filter() {
     f = _.filter(mainBase, function(item) {
         return item.status == "offline";
@@ -145,6 +146,25 @@ function filter() {
 addData.addEventListener("click", validate);
 */
 // validate функция проверки введенных данных, если данные введены верно добавляет их в mainBase
+/*
+function validation() {
+  this.invalidities = [];
+}
+
+validation.prototype = {
+  addInvalidity: function(message) {
+    this.invalidities.push(message);
+  },
+  getInvalidities: function() {
+    return this.invalidities.join(". \n");
+  },
+  checkValidity: function(input) {
+    if (input.value.length < 3) {
+      this.addInvalidity("Минимальная длинна 3 символа")
+    }
+  }
+};
+*/
 
 function validate(form) {
     var serviceName = form.serviceName.value,
@@ -153,32 +173,47 @@ function validate(form) {
         serviceDesc = form.serviceDesc.value,
         http = form.http.value,
         err,
+        errNum,
         newElement;
 
-        if (serviceName == "" || serviceName == " ") {
-          err = "Введите имя сервиса"
-        } else if (!validateIpAndPort(adress)) {
-          err = "Проверьте IP-адрес"
-        } else if (!validateNum(socket,0,4096)) {
-          err = "Проверьте Порт"
-        } else if (serviceDesc== "" || serviceDesc == " ") {
-          err = "Введите описание сервиса"
-        }
+    if (serviceName == "" || serviceName == " ") {
+        err = "Введите имя сервиса",
+            errNum = 1
+    } else if (!validateIpAndPort(adress)) {
+        err = "Проверьте IP-адрес",
+            errNum = 2
+    } else if (socket && !validateNum(socket, 0, 4096)) {
+        err = "Проверьте Порт",
+            errNum = 3
+    } else if (serviceDesc == "" || serviceDesc == " ") {
+        err = "Введите описание сервиса",
+            errNum = 4
+    }
 
-        if(err) {
-          alert(err);
-        } else {
-          newElement = new Service([mainBase.length+1,serviceName,adress+":"+socket,serviceDesc,http,status()]);
-          mainBase.push(newElement);
-          render(mainBase);
+    if (err) {
+        if (errNum = 1) {
+            form.serviceName.insertAdjacentHTML("afterEnd", '<button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">' + err + '</button>');
         }
+    } else {
+        if (http) {
+            newElement = http.split(":");
+            if (newElement[0] === "http") {
+                socket = "80";
+            } else if (newElement[0] === "https") {
+                socket = "443";
+            }
+        }
+        newElement = new Service([mainBase.length + 1, String(serviceName), adress + ":" + socket, String(serviceDesc), String(http), status()]);
+        mainBase.push(newElement);
+        render(mainBase);
+    }
 
     function validateIpAndPort(input) {
         var parts = input.split("/");
         var ip = parts[0].split(".");
         var port = parts[1];
         if (parts[1]) {
-            return validateNum(port, 1, 65535) &&
+            return validateNum(port, 1, 32) &&
                 ip.length == 4 &&
                 ip.every(function(segment) {
                     return validateNum(segment, 0, 255);
@@ -200,13 +235,36 @@ function validate(form) {
 // ТУДУ
 //edit Функция изменения параметров
 
-function edit() {
+function edit(form) {
+    table.onclick = function(e) {
+        var target = e.target;
+        var num = target.getAttribute('data-id')-1;
+        if (num) {
+            console.log(mainBase[num]);
 
-}
+            form.serviceName.value = mainBase[num].name,
+            form.adress.value = mainBase[num].ip.split("/"),
+            form.socket.value = mainBase[num].socket,
+            form.serviceDesc.value = mainBase[num].descrition,
+            form.http.value = mainBase[num].url;
+            }
+            render(mainBase);
+        }
+    }
 
 
 //edit Функция удаления сервиса
 
 function del() {
-
+    table.onclick = function(e) {
+        var target = e.target;
+        var num = target.getAttribute('data-id');
+        if (num) {
+            mainBase.splice(num - 1, 1);
+            for (var i = 0; i < mainBase.length; i++) {
+                mainBase[i].id = i + 1;
+            }
+            render(mainBase);
+        }
+    }
 }
