@@ -82,24 +82,24 @@
                     <h4>Статичтика сервисов online</h4>
                     <div id="progressBars"></div>
                     <script type="text/template" id="progressBars-template">
-                    <div class="progress">
-                        <div class="progress-bar" id="progressBarOnline" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:<%=online%>%">
-                          <%=online%>%
+                        <div class="progress">
+                            <div class="progress-bar" id="progressBarOnline" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:<%=online%>%">
+                                <%=online%>%
+                            </div>
                         </div>
-                    </div>
-                    <h4>Статистика сервисов offline</h4>
+                        <h4>Статистика сервисов offline</h4>
 
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" id="progressBarOffline" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:<%=offline%>%">
-                          <%=offline%>%
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" id="progressBarOffline" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:<%=offline%>%">
+                                <%=offline%>%
+                            </div>
                         </div>
-                    </div>
-                    <h4>Статистика</h4>
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 23%;">
-                            23%
+                        <h4>Статистика</h4>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 23%;">
+                                23%
+                            </div>
                         </div>
-                    </div>
                     </script>
 
                 </div>
@@ -133,10 +133,10 @@
                                                     <%=list[i].name%>
                                                 </td>
                                                 <td>
-                                                    <span data-id="edit<%=list[i].id%>" class="glyphicon glyphicon-cog edit" aria-hidden="true"></span>
+                                                    <span data-id="<%=list[i].id%>" onclick="edit(document.getElementById('addForm'))" class="glyphicon glyphicon-cog edit" aria-hidden="true" data-toggle="modal" data-target="#addService"></span>
                                                     <span></span>
 
-                                                    <span data-id="del<%=list[i].id%>" class="glyphicon glyphicon-trash del" aria-hidden="true"></span>
+                                                    <span data-id="<%=list[i].id%>" onclick="del()" class="glyphicon glyphicon-trash del" aria-hidden="true"></span>
                                                 </td>
                                                 <td>
                                                     <%=list[i].ip%>
@@ -145,7 +145,9 @@
                                                     <%=list[i].descrition%>
                                                 </td>
                                                 <td>
-                                                    <%=list[i].url%>
+                                                    <a href="<%=list[i].url%>">
+                                                        <%=list[i].url%>
+                                                    </a>
                                                 </td>
                                                 <td class="<%=list[i].status%>">
                                                     <%=list[i].status%>
@@ -177,7 +179,7 @@
     <div class="modal fade" id="addService" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form id="addForm" class="" action="index.html" method="post" >
+                <form id="addForm" class="" action="index.html" method="post">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="myModalLabel">Добавление сервиса</h4>
@@ -185,7 +187,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="serviceName">Имя нового сервиса:</label>
-                            <input type="text" id="serviceName" class="form-control" name="serviceName" placeholder="Service name" required>
+                            <input type="text" id="serviceName" class="form-control" name="serviceName" placeholder="Service name" minlength="3" required>
                         </div>
                         <div class="form-group">
                             <label for="adress">IP-Адрес:</label>
@@ -197,7 +199,7 @@
                         </div>
                         <div class="form-group">
                             <label for="serviceDesc">Описание:</label>
-                            <input type="text" id="serviceDesc" class="form-control" name="serviceDesc" placeholder="serv" required>
+                            <input type="text" id="serviceDesc" class="form-control" name="serviceDesc" placeholder="serv" minlength="3" required>
                         </div>
                         <div class="form-group">
                             <label for="serviceHttp">URL:</label>
