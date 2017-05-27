@@ -164,7 +164,16 @@ validation.prototype = {
     }
   }
 };
+
+var serviceName = form.serviceName;
+
+serviceName.CustomValidation = new CustomValidation();
+
+serviceName.addEventListener('keyup', function () {
+  serviceName.CustomValidation.checkValidity(this);
+})
 */
+
 
 function validate(form) {
     var serviceName = form.serviceName.value,
@@ -176,24 +185,34 @@ function validate(form) {
         errNum,
         newElement;
 
+
+    form.serviceName.addEventListener('keyup', function() {
+        if (serviceName.length < 3) {
+
+        }
+    });
+
     if (serviceName == "" || serviceName == " ") {
         err = "Введите имя сервиса",
             errNum = 1
     } else if (!validateIpAndPort(adress)) {
         err = "Проверьте IP-адрес",
             errNum = 2
-    } else if (socket && !validateNum(socket, 0, 4096)) {
+    } else if (socket && !validateNum(socket, 0, 65536)) {
         err = "Проверьте Порт",
             errNum = 3
     } else if (serviceDesc == "" || serviceDesc == " ") {
         err = "Введите описание сервиса",
-            errNum = 4
+            errNum
     }
 
     if (err) {
-        if (errNum = 1) {
-            form.serviceName.insertAdjacentHTML("afterEnd", '<button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">' + err + '</button>');
-        }
+        /*
+                if (errNum = 1) {
+                    form.serviceName.insertAdjacentHTML("afterEnd", '');
+                }*/
+
+        alert(err);
     } else {
         if (http) {
             newElement = http.split(":");
@@ -203,9 +222,13 @@ function validate(form) {
                 socket = "443";
             }
         }
-        newElement = new Service([mainBase.length + 1, String(serviceName), adress + ":" + socket, String(serviceDesc), String(http), status()]);
-        mainBase.push(newElement);
-        render(mainBase);
+        if (socket) {
+          newElement = new Service([mainBase.length + 1, serviceName, adress + ":" + socket, serviceDesc, http, status()]);
+        }
+        else {
+          newElement = new Service([mainBase.length + 1, serviceName, adress, serviceDesc, http, status()]);
+        }
+
     }
 
     function validateIpAndPort(input) {
@@ -230,27 +253,49 @@ function validate(form) {
         var num = +input;
         return num >= min && num <= max && input === num.toString();
     }
+    return newElement;
 }
 
 // ТУДУ
 //edit Функция изменения параметров
 
 function edit(form) {
+    var edited;
     table.onclick = function(e) {
-        var target = e.target;
-        var num = target.getAttribute('data-id')-1;
-        if (num) {
-            console.log(mainBase[num]);
+        var target = e.target,
+            num = target.getAttribute('data-id') - 1;
+            console.log(num);
+        if (num + 1) {
+            ipSplit = mainBase[num].ip.split(":");
+            if (!ipSplit[1]) {
+                ipSplit[1] = "";
+            } 
 
-            form.serviceName.value = mainBase[num].name,
-            form.adress.value = mainBase[num].ip.split("/"),
-            form.socket.value = mainBase[num].socket,
-            form.serviceDesc.value = mainBase[num].descrition,
-            form.http.value = mainBase[num].url;
-            }
-            render(mainBase);
+            form.edit__serviceName.value = mainBase[num].name,
+                form.edit__adress.value = ipSplit[0],
+                form.edit__socket.value = ipSplit[1],
+                form.edit__serviceDesc.value = mainBase[num].descrition,
+                form.edit__http.value = mainBase[num].url;
+
+            //записать все в mainBase
+
         }
+        editSave.addEventListener("click", function() {
+            edited = validate(form);
+            console.log(edited);
+            console.log(num);
+            edited.id = num + 1;
+            mainBase[num] = edited;
+            render(mainBase);
+            console.log("stop");
+        })
     }
+}
+
+function addNewService (form) {
+  mainBase.push(validate(form));
+  render(mainBase);
+}
 
 
 //edit Функция удаления сервиса
