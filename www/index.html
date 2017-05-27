@@ -127,30 +127,30 @@
                                         <% for(var i = 0; i < list.length; i++) { %>
                                             <tr>
                                                 <td>
-                                                    <%=list[i].id%>
+                                                    <%-list[i].id%>
                                                 </td>
                                                 <td>
-                                                    <%=list[i].name%>
+                                                    <%-list[i].name%>
                                                 </td>
                                                 <td>
-                                                    <span data-id="<%=list[i].id%>" onclick="edit(document.getElementById('editForm'))" class="glyphicon glyphicon-cog edit" aria-hidden="true" data-toggle="modal" data-target="#editService"></span>
+                                                    <span data-id="<%-list[i].id%>" onclick="edit(document.getElementById('editForm'))" class="glyphicon glyphicon-cog edit" aria-hidden="true" data-toggle="modal" data-target="#editService"></span>
                                                     <span></span>
 
-                                                    <span data-id="<%=list[i].id%>" onclick="del()" class="glyphicon glyphicon-trash del" aria-hidden="true"></span>
+                                                    <span data-id="<%-list[i].id%>" onclick="del()" class="glyphicon glyphicon-trash del" aria-hidden="true"></span>
                                                 </td>
                                                 <td>
-                                                    <%=list[i].ip%>
+                                                    <%-list[i].ip%>
                                                 </td>
                                                 <td>
-                                                    <%=list[i].descrition%>
+                                                    <%-list[i].descrition%>
                                                 </td>
                                                 <td>
-                                                    <a href="<%=list[i].url%>">
-                                                        <%=list[i].url%>
+                                                    <a href="<%-list[i].url%>">
+                                                        <%-list[i].url%>
                                                     </a>
                                                 </td>
-                                                <td class="<%=list[i].status%>">
-                                                    <%=list[i].status%>
+                                                <td class="<%-list[i].status%>">
+                                                    <%-list[i].status%>
                                                 </td>
 
                                             </tr>
