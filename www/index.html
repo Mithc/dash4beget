@@ -133,7 +133,7 @@
                                                     <%=list[i].name%>
                                                 </td>
                                                 <td>
-                                                    <span data-id="<%=list[i].id%>" onclick="edit(document.getElementById('addForm'))" class="glyphicon glyphicon-cog edit" aria-hidden="true" data-toggle="modal" data-target="#addService"></span>
+                                                    <span data-id="<%=list[i].id%>" onclick="edit(document.getElementById('editForm'))" class="glyphicon glyphicon-cog edit" aria-hidden="true" data-toggle="modal" data-target="#editService"></span>
                                                     <span></span>
 
                                                     <span data-id="<%=list[i].id%>" onclick="del()" class="glyphicon glyphicon-trash del" aria-hidden="true"></span>
@@ -176,44 +176,87 @@
     <!-- MOdals -->
     <!-- addService -->
 
-    <div class="modal fade" id="addService" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="addService" tabindex="-1" role="dialog" aria-labelledby="addModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <form id="addForm" class="" action="index.html" method="post">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Добавление сервиса</h4>
+                        <h4 class="modal-title" id="add__addModal">Добавление сервиса</h4>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="serviceName">Имя нового сервиса:</label>
-                            <input type="text" id="serviceName" class="form-control" name="serviceName" placeholder="Service name" minlength="3" required>
+                            <input type="text" id="add__serviceName" class="form-control" name="serviceName" placeholder="Service name" minlength="3" required>
                         </div>
                         <div class="form-group">
                             <label for="adress">IP-Адрес:</label>
-                            <input type="text" id="adress" class="form-control" name="adress" placeholder="101.5.100.16/28" required>
+                            <input type="text" id="add__adress" class="form-control" name="adress" placeholder="101.5.100.16/28" required>
                         </div>
                         <div class="form-group">
                             <label for="adress">Порт:</label>
-                            <input type="text" id="socket" class="form-control" name="socket" placeholder=":3002">
+                            <input type="text" id="add__socket" class="form-control" name="socket" placeholder=":3002">
                         </div>
                         <div class="form-group">
                             <label for="serviceDesc">Описание:</label>
-                            <input type="text" id="serviceDesc" class="form-control" name="serviceDesc" placeholder="serv" minlength="3" required>
+                            <input type="text" id="add__serviceDesc" class="form-control" name="serviceDesc" placeholder="serv" minlength="3" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" required>
                         </div>
                         <div class="form-group">
                             <label for="serviceHttp">URL:</label>
-                            <input type="text" id="http" class="form-control" name="http" placeholder="https://beget.com">
+                            <input type="text" id="add__http" class="form-control" name="http" placeholder="https://beget.com">
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть окно</button>
-                        <button type="button" class="btn btn-primary" onclick="validate(document.getElementById('addForm'))" id="addData">Добавить сервис</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                        <button type="button" class="btn btn-primary" onclick="addNewService(document.getElementById('addForm'))" id="addSave">Добавить сервис</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
+
+    <!-- editService -->
+
+        <div class="modal fade" id="editService" tabindex="-1" role="dialog" aria-labelledby="editModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form id="editForm" class="" action="index.html" method="post">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="edit__Modal">Изменение сервиса</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="serviceName">Имя нового сервиса:</label>
+                                <input type="text" id="edit__serviceName" class="form-control" name="serviceName" minlength="3" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="adress">IP-Адрес:</label>
+                                <input type="text" id="edit__adress" class="form-control" name="adress" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="adress">Порт:</label>
+                                <input type="text" id="edit__socket" class="form-control" name="socket" >
+                            </div>
+                            <div class="form-group">
+                                <label for="serviceDesc">Описание:</label>
+                                <input type="text" id="edit__serviceDesc" class="form-control" name="serviceDesc"  minlength="3" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="serviceHttp">URL:</label>
+                                <input type="text" id="edit__http" class="form-control" name="http">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть окно</button>
+                            <button type="button" class="btn btn-primary" onclick="validate(document.getElementById('editForm'))" id="editSave">Сохранить изменения</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
 
 
 
