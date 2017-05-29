@@ -171,3 +171,9 @@ body {}
         background-color: #525a6d;
     }
 }
+
+/* modal */
+.errorMassage{
+  color: red;
+  margin: 15px;
+}
