@@ -188,7 +188,11 @@ function validate(form) {
 
     form.serviceName.addEventListener('keyup', function() {
         if (serviceName.length < 3) {
-
+          removeClass(errorMassage1, 'hidden');
+          console.log(123213);
+        } else {
+          addClass(errorMassage1, 'hidden');
+          console.log(1232141241);
         }
     });
 
@@ -223,10 +227,9 @@ function validate(form) {
             }
         }
         if (socket) {
-          newElement = new Service([mainBase.length + 1, serviceName, adress + ":" + socket, serviceDesc, http, status()]);
-        }
-        else {
-          newElement = new Service([mainBase.length + 1, serviceName, adress, serviceDesc, http, status()]);
+            newElement = new Service([mainBase.length + 1, serviceName, adress + ":" + socket, serviceDesc, http, status()]);
+        } else {
+            newElement = new Service([mainBase.length + 1, serviceName, adress, serviceDesc, http, status()]);
         }
 
     }
@@ -264,12 +267,12 @@ function edit(form) {
     table.onclick = function(e) {
         var target = e.target,
             num = target.getAttribute('data-id') - 1;
-            console.log(num);
+        console.log(num);
         if (num + 1) {
             ipSplit = mainBase[num].ip.split(":");
             if (!ipSplit[1]) {
                 ipSplit[1] = "";
-            } 
+            }
 
             form.edit__serviceName.value = mainBase[num].name,
                 form.edit__adress.value = ipSplit[0],
@@ -292,9 +295,9 @@ function edit(form) {
     }
 }
 
-function addNewService (form) {
-  mainBase.push(validate(form));
-  render(mainBase);
+function addNewService(form) {
+    mainBase.push(validate(form));
+    render(mainBase);
 }
 
 
