@@ -74,7 +74,7 @@
                         <a href="#" class="list-group-item active main-color-bg">
               Управление
             </a>
-                        <a type="button" class="list-group-item" data-toggle="modal" data-target="#addService">Добавление сервиса</a>
+                        <a type="button" id="addButton" class="list-group-item" data-toggle="modal" data-target="#addService">Добавление сервиса</a>
                         <a class="list-group-item" id="hideOnline">Только offline</a>
                         <a class="list-group-item" onclick="render(mainBase)">Все сервисы</a>
                         <!--<a href="#" class="list-group-item">важное</a>-->
@@ -188,22 +188,22 @@
                         <div class="form-group">
                             <label for="serviceName">Имя нового сервиса:</label>
                             <input type="text" id="add__serviceName" class="form-control" name="serviceName" placeholder="Service name" minlength="3" required>
-                            <span class="errorMassage hidden" id="errorMassage1">Введите имя сервиса</span>
+                            <span class="errorMassage hiddenMassage" id="errorMassage1">Введите имя сервиса, минимальная длинна 3 символа</span>
                         </div>
                         <div class="form-group">
                             <label for="adress">IP-Адрес:</label>
                             <input type="text" id="add__adress" class="form-control" name="adress" placeholder="101.5.100.16/28" required>
-                            <span class="errorMassage hidden" id="errorMassage2">Проверьте IP-адрес</span>
+                            <span class="errorMassage hiddenMassage" id="errorMassage2">Проверьте IP-адрес</span>
                         </div>
                         <div class="form-group">
                             <label for="adress">Порт:</label>
                             <input type="text" id="add__socket" class="form-control" name="socket" placeholder=":3002">
-                            <span class="errorMassage hidden" id="errorMassage3">Проверьте Порт</span>
+                            <span class="errorMassage hiddenMassage" id="errorMassage3">Проверьте Порт</span>
                         </div>
                         <div class="form-group">
                             <label for="serviceDesc">Описание:</label>
                             <input type="text" id="add__serviceDesc" class="form-control" name="serviceDesc" placeholder="serv" minlength="3" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" required>
-                            <span class="errorMassage hidden"  id="errorMassage4">Введите описание сервиса</span>
+                            <span class="errorMassage hiddenMassage"  id="errorMassage4">Введите описание сервиса, минимальная длинна 3 символа</span>
                         </div>
                         <div class="form-group">
                             <label for="serviceHttp">URL:</label>
@@ -212,7 +212,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть окно</button>
-                        <button type="button" class="btn btn-primary" onclick="addNewService(document.getElementById('addForm'))" id="addSave">Добавить сервис</button>
+                        <button type="button" class="btn btn-primary" id="addSave">Добавить сервис</button>
                     </div>
                 </form>
             </div>
@@ -234,22 +234,22 @@
                         <div class="form-group">
                             <label for="serviceName">Имя сервиса:</label>
                             <input type="text" id="edit__serviceName" class="form-control" name="serviceName" minlength="3" required>
-                            <span class="errorMassage hidden">Введите имя сервиса</span>
+                            <span class="errorMassage hiddenMassage"  id="errorMassage5">Введите имя сервиса, минимальная длинна 3 символа</span>
                         </div>
                         <div class="form-group">
                             <label for="adress">IP-Адрес:</label>
                             <input type="text" id="edit__adress" class="form-control" name="adress" required>
-                            <span class="errorMassage hidden">Проверьте IP-адрес</span>
+                            <span class="errorMassage hiddenMassage"  id="errorMassage6">Проверьте IP-адрес</span>
                         </div>
                         <div class="form-group">
                             <label for="adress">Порт:</label>
                             <input type="text" id="edit__socket" class="form-control" name="socket">
-                            <span class="errorMassage hidden">Проверьте Порт</span>
+                            <span class="errorMassage hiddenMassage"  id="errorMassage7">Проверьте Порт</span>
                         </div>
                         <div class="form-group">
                             <label for="serviceDesc">Описание:</label>
                             <input type="text" id="edit__serviceDesc" class="form-control" name="serviceDesc" minlength="3" required>
-                            <span class="errorMassage hidden">Введите описание сервиса</span>
+                            <span class="errorMassage hiddenMassage"  id="errorMassage8" >Введите описание сервиса, минимальная длинна 3 символа</span>
                         </div>
                         <div class="form-group">
                             <label for="serviceHttp">URL:</label>
@@ -258,7 +258,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
-                        <button type="button" class="btn btn-primary" onclick="validate(document.getElementById('editForm'))" id="editSave">Сохранить изменения</button>
+                        <button type="button" class="btn btn-primary" id="editSave">Сохранить изменения</button>
                     </div>
                 </form>
             </div>
@@ -272,7 +272,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="js/lodash.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/main2.js"></script>
+    <script src="js/rendering.js"></script>
+    <script src="js/filtering.js"></script>
+    <script src="js/validation.js"></script>
+    <script src="js/editing.js"></script>
+    <script src="js/deleting.js"></script>
 </body>
 
 </html>
